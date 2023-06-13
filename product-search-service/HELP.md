@@ -30,6 +30,10 @@ __endpoint__?om=_nombre_metrica1_-_peso_metrica1_,_nombre_metrica2_-_peso_metric
 
 siendo el peso de la última métrica opcional, así como el parámetro de ordenación, que por defecto será descendente (de mayor a menor según las métricas y sus pesos) y cuyo valor se puede establecer si el cliente del API lo necesita. Solo será ascendente si el valor del parámetro "o" es igual a "true".
 
+Los posibles valores para los nombres de las métricas son:
+1) "Sales"
+2) "TotalStock"
+
 Cuando se arranque la aplicación, el endpoint sería __http://localhost:8080/shirts__ y a partir de ahí, los parámetros comentados anteriormente.
 NOTA: en entorno real, este endpoint "base" debería devolver todos los objetos _shirt_. Sin embargo, no es el propósito de este ejercicio, y esa URL devolverá directamente un HTTP 400 (Bad request)
 
@@ -73,6 +77,8 @@ __SalesShirtOrderingMetric__
 Métrica que implementa ShirtOrderingMetric.
 Esta métrica ordena los objetos ShirtProductOrdering a partir de sus unidades vendidas
 Define su nombre como _"Sales"_
+
+NOTA: de cara a extender la funcionalidad en el futuro con nuevas métricas, solo sería necesario crear nuevas clases como las actuales y que implementen un Comparator<ShirtProductOrdering> o bien que hereden directamente de la clase abstracta ShirtOrderingMetric. Por otro lado, para garantizar que los pesos de cada métrica no se ven influenciados por la implementación del comparador, deberían siempre retornar los valores 1,0 o -1 en la implementación del método __compare__ del Comparator.
 
 __WeightedShirtProductOrderingMetric__
 Contiene al objeto ShirtOrderingMetric y además, define el peso que tendrá la métrica en la consulta. NOTA: se sigue la estrategia de implementación de preferir "composición sobre herencia". Esto es, que la métrica con peso __no__ extiende de métrica, sino que contiene a la clase de métrica y añade el dato del peso.
